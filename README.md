@@ -81,7 +81,7 @@ git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing
 4. **说人话不说黑话**——目标是客户或用户，不是行业同行
 5. **Hero 页 = 一句话说清做什么 + 产品工作中的视频/演示**
 
-借鉴自 [dbs-xhs-title](https://github.com/warlockee/dbs-skills) 的标题铁律（留悬念 / 话题扩大 / 击中真痛点 / 张力 6 选 2）和 [dbs-hook](https://github.com/warlockee/dbs-skills) 的开头公式（话题 + Hook + 可信度）。
+借鉴自 [dbs-xhs-title](https://github.com/dontbesilent2025/dbskill) 的标题铁律（留悬念 / 话题扩大 / 击中真痛点 / 张力 6 选 2）和 [dbs-hook](https://github.com/dontbesilent2025/dbskill) 的开头公式（话题 + Hook + 可信度）。
 
 ---
 
