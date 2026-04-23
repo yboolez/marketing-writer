@@ -1,87 +1,115 @@
 # marketing-writer
 
-一个很会说人话的写手。会写文案、做 PPT、做 HTML 落地页。
-
-核心原则只有一条：**所有页面标题按顺序连读，必须是一段完整、顺畅、能打动客户的销售话术**——不是目录、不是名词短语。
-
-> Turn product/project info into marketing copy — slides, landing pages, single-page nav sites, or plain text.
-> Core rule: every page title reads as a sentence spoken TO the customer, and all titles connected form one coherent sales pitch.
+> A Claude Code skill that forces your slide titles to read like a sales pitch, not a corporate table of contents.
 
 ---
 
-## 触发方式 / Triggers
+## 你做的 slides 标题全是名词短语，像目录——这个 skill 让它们读起来像一段销售话术
 
-- `/marketing-writer`
-- `/营销文案`
-- `/说人话`
-- 自然语言：「帮我写 pitch deck」「做个落地页」「写个营销 slides」「把这个写成对外宣传」「说人话」
+一个很会说人话的写手。写文案、做 PPT、做落地页。
 
 ---
 
-## 安装 / Installation
+## AI 生成的 deck 长得都一样：`我们的解决方案 / 核心优势 / 客户案例 / 联系我们`
 
-### 一键安装脚本（推荐）
+每一页都是名词短语。所有标题连读，像一张目录，不像有人在说话。真实的销售不是这么讲的。
 
-会自动把 `marketing-writer` 和配套的 `frontend-slides` 一起装好：
+---
+
+## 它只要求一件事：每页标题都是说给客户听的完整一句话，所有标题连读是一段完整话术
+
+换成这样：
+
+> 「我们做的这件事，市场上还没人做好 / 因为大家都在用错误的方式解决它 / 我们试了 3 条路才找到现在这个方案 / 它和同类产品最大的区别是 X / 已经有 Y 家客户在用并拿到了 Z 结果 / 现在合作你能拿到的是...」
+
+每一页的标题是一句完整的话，连起来读是一段连贯的故事。每一页的正文，只是把标题展开。
+
+---
+
+## 你给它素材，它先只写标题串让你连读一遍，读顺了再展开正文
+
+工作流程只有 5 步：
+
+1. 接素材——先用 dbs-hook 的 5 维度（数据/故事/金句/权威/痛点）检查素材够不够。不够就停。
+2. 只写标题——不写正文，一页一个标题，从头到尾。
+3. 连读自查——两条硬规则：标题串听起来像不像销售话术？Hero 那句有没有金句感？
+4. 展开正文——每页最少必要的文字 + 视觉建议。
+5. 交付——要 slides 就直接调 `frontend-slides` 渲染出 HTML 并在浏览器打开，不再问你。
+
+---
+
+## 同一篇行业新闻，它能把 13 页 slides 的标题写成一段能念出来的故事
+
+比如 Google Cloud Next 2026 的发布会报道，它会写成：
+
+> "Google 憋了一整年的话，昨晚说了一句：试验阶段结束了。过去一年行业都在追 Harness 这个概念，Google 一句没说——不是它没本事，是它根本瞧不上。它掏出的是一整套 Agent 全家桶，五层通吃。为了证明能打，它搬出了一个你绝对想不到的客户——下一代 Siri 就是基于 Google 的 AI 在训练。这事对你我意味着什么？AI 不再是'要不要用'，而是'怎么管'。"
+
+这 13 句话就是那 13 页 slides 的标题。
+
+---
+
+## 一行命令把它和搭档 `frontend-slides` 都装好
 
 ```bash
 bash <(curl -sSL https://raw.githubusercontent.com/yboolez/marketing-writer/main/install.sh)
 ```
 
-### 手动安装
+或手动：
 
 ```bash
 mkdir -p ~/.claude/skills
-
-# 主 skill
 git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
-
-# 配套 skill（如果还没装）
 [ -d ~/.claude/skills/frontend-slides ] || \
   git clone https://github.com/zarazhangrui/frontend-slides ~/.claude/skills/frontend-slides
 ```
 
-装好后重启 Claude Code 即可。
+装好后重启 Claude Code。
 
 ---
 
-## 配套技能 / Companion Skill
+## `marketing-writer` 决定说什么，`frontend-slides` 负责把它渲染成好看的 HTML
 
-**强烈建议同时安装** [`frontend-slides`](https://github.com/zarazhangrui/frontend-slides)。
+两个 skill 正交，分工很清楚：
 
-两者分工：
-
-| 技能 | 职责 |
+| 技能 | 负责 |
 |------|------|
-| `marketing-writer` | 写**什么**——标题串、叙事结构、销售话术、内容层级 |
-| `frontend-slides` | 写**成什么样**——HTML slides/落地页的视觉渲染、动画、排版 |
+| `marketing-writer` | 标题串、叙事结构、销售话术、每页内容分层 |
+| `frontend-slides` | HTML 视觉渲染、动画、排版、配色 |
 
-当用户让做 slides 或落地页时，`marketing-writer` 定完文案和结构后会直接调 `frontend-slides` 渲染成 HTML。没装 `frontend-slides` 依然能出纯文案 Markdown，但视觉部分会降级。
+`marketing-writer` Phase 5 会直接调 `frontend-slides` 渲染——你不用手动接。没装 `frontend-slides` 照样能出纯文案 Markdown，但视觉那部分会降级。
 
 ---
 
-## 它在干什么 / What it does
+## 唤起它最短的一句话是「说人话」
 
-输入：产品/项目/文章/任何想对外讲的东西
-输出：能打的营销物料（slides / 落地页 / 纯文案）
+触发方式：
 
-流程：
+- `/marketing-writer`
+- `/营销文案`
+- `/说人话` ← 最短
+- 自然语言：「帮我写 pitch deck」「做个落地页」「写个营销 slides」「把这个写成对外宣传」
 
-1. **接素材、判形式**——slides？单页站？纯文案？素材够不够撑叙事？
-2. **先写标题串**（不写正文）——一页一个标题，每个是**说给受众听的一句完整的话**
-3. **自查金句感**——唯一硬性自查：标题连读是不是一段好话术？Hero 那句有没有金句感？
-4. **展开每页正文**——最少必要的文字 + 视觉建议（视频 > 动画 > 图 > 无）
-5. **交付**——要 slides/落地页就直接调 `frontend-slides` 渲染并打开，不停下来问
+---
 
-### 核心信条
+## 标题张力、素材维度、金句标准借自 [dbs](https://github.com/dontbesilent2025/dbskill)——slides 场景不适用的部分已经挑出去了
 
-1. **标题串 = 一段完整销售话术**——不是 `产品介绍 / 核心功能 / 客户案例`，而是 `我们做的这件事市场上还没人做好 / 因为大家都在用错的方式解决它 / ...`
-2. **每页标题是完整一句话**，不是名词短语
-3. **每页正文只是展开标题**，很多页配张图就够
-4. **说人话不说黑话**——目标是客户或用户，不是行业同行
-5. **Hero 页 = 一句话说清做什么 + 产品工作中的视频/演示**
+dbs 是 dontbesilent 的商业/内容工具箱，针对小红书、短视频场景。`marketing-writer` 只保留了在 slides/落地页上同样适用的部分：
 
-借鉴自 [dbs-xhs-title](https://github.com/dontbesilent2025/dbskill) 的标题铁律（留悬念 / 话题扩大 / 击中真痛点 / 张力 6 选 2）和 [dbs-hook](https://github.com/dontbesilent2025/dbskill) 的开头公式（话题 + Hook + 可信度）。
+- ✅ 击中真实痛点（铁律 3）
+- ✅ 张力 6 选 2（铁律 4）
+- ✅ 话题 + Hook + 可信度（Hero 公式）
+- ✅ 素材 5 维度 + 金句 3 标准
+- ⚠️ 口播友好——只保留给 pitch deck（会被念出来的场景）
+- ❌ "留悬念=不让观众知道答案"——slides 是顺序展示不是 feed 流，已经换成「展示 vs 悬念」表按页面角色判断
+- ❌ "扩大话题=扩大算法流量池"——slides 没有推送算法，本 skill 信条 4（说人话）已经覆盖了底层原则
+
+---
+
+## 装起来，下次做 deck 就不用从空白开始
+
+```bash
+bash <(curl -sSL https://raw.githubusercontent.com/yboolez/marketing-writer/main/install.sh)
+```
 
 ---
 
