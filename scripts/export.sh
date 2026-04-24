@@ -21,7 +21,10 @@ set -e
 
 HTML="${1:?"Usage: export.sh <html-file> [pdf|long|both] [width]"}"
 FORMAT="${2:-both}"
-WIDTH="${3:-1920}"
+# Canvas width in CSS px. 1440 matches typical laptop Chrome window, so
+# long-image fonts/layout look the same proportion as presentation.
+# Output is rendered at DPR=2 (hi-DPI) so final pixels are 2× this.
+WIDTH="${3:-1440}"
 
 [ ! -f "$HTML" ] && { echo "❌ File not found: $HTML" >&2; exit 1; }
 
@@ -82,7 +85,7 @@ export_long_image() {
         frame="$tmpdir/slide-$(printf '%02d' "$i").png"
         "$CHROME" --headless=new --disable-gpu --no-sandbox \
             --window-size="${WIDTH},${slide_h}" \
-            --force-device-scale-factor=1 \
+            --force-device-scale-factor=2 \
             --hide-scrollbars \
             --virtual-time-budget=3000 \
             --screenshot="$frame" \
