@@ -30,7 +30,7 @@ AI 生成的 deck 标题长得都一样：`我们的解决方案 / 核心优势 
 2. 只写标题，不写正文，一页一个
 3. 连读自查——标题串像不像一段话术？Hero 那句有没有金句感？
 4. 展开正文 + 视觉建议
-5. 要 slides 就直接调 `frontend-slides` 渲染并打开，不再问你
+5. 要 slides 就渲染 HTML 并打开；要 PDF / 长图 / 朋友圈 9 图 / 小红书多图，按需勾选导出
 
 ---
 
@@ -55,22 +55,24 @@ bash <(curl -sSL https://raw.githubusercontent.com/yboolez/marketing-writer/main
 ```bash
 mkdir -p ~/.claude/skills
 git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
-[ -d ~/.claude/skills/frontend-slides ] || \
-  git clone https://github.com/zarazhangrui/frontend-slides ~/.claude/skills/frontend-slides
 ```
 
 装好后重启 Claude Code。
 
 ---
 
-## 一个决定说什么，一个负责怎么呈现
+## 输出格式
 
-| 技能 | 负责 |
-|------|------|
-| `marketing-writer` | 标题串、叙事结构、销售话术 |
-| `frontend-slides` | HTML 渲染、动画、排版 |
+一份 HTML 设计稿，按目标场景导出对应格式：
 
-`marketing-writer` Phase 5 会直接调 `frontend-slides`，你不用手动接。没装 `frontend-slides` 也能出纯 Markdown 文案。
+| 格式 | 命令 | 用途 |
+|------|------|------|
+| PDF (16:9 横版) | `export.sh <html> pdf` | 正式外发、PPT 风格 |
+| 长图 (单张拼接) | `export.sh <html> long` | 微信群、文章内嵌 |
+| 朋友圈 9 图 (9:16) | `export.sh <html> moments` | 朋友圈 9 宫格 |
+| 小红书多图 (3:4) | `export.sh <html> xhs` | 小红书笔记（≤18 张） |
+
+> 不同 format 不是简单的导出尺寸切换——是不同的内容设计。横屏一页能放下的 33 行表，竖屏要拆 4 页或换成卡片。skill 会根据目标格式重新决定每页放多少。
 
 ---
 
@@ -83,24 +85,14 @@ git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing
 
 ---
 
-## 理论借自 [dbs](https://github.com/dontbesilent2025/dbskill)，不适用 slides 的已挑掉
+## 理论参考
 
-dbs 是 dontbesilent 的商业/内容工具箱，原本针对小红书、短视频。`marketing-writer` 只留了 slides 场景通用的：
+部分原则借鉴自：
 
-- ✅ 击中真实痛点
-- ✅ 标题张力 6 选 2
-- ✅ 开头公式：话题 + Hook + 可信度
-- ✅ 素材 5 维度 + 金句 3 标准
-- ⚠️ 口播友好——只对 pitch deck 适用（落地页没人念）
-- ❌ feed 算法相关的铁律（slides 没有推送算法）
+- **[dbs](https://github.com/dontbesilent2025/dbskill)**（dontbesilent 的内容工具箱）—— 标题张力检查、素材 5 维度、Hero 公式（话题 + Hook + 可信度）等
+- **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)** —— viewport fitting、信息密度上限、反 AI slop 美学
 
----
-
-## 下次做 deck，不用从空白开始
-
-```bash
-bash <(curl -sSL https://raw.githubusercontent.com/yboolez/marketing-writer/main/install.sh)
-```
+只挑了对营销 slides 场景通用的部分吸收进来，平台/媒介专用的没拿。
 
 ---
 
