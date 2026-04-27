@@ -131,8 +131,8 @@ export_social() {
     local cap_w cap_h max_n outdir n frames
 
     case "$platform" in
-        moments)  cap_w=750;  cap_h=1334; max_n=9  ;;   # 9:16 朋友圈
-        xhs)      cap_w=900;  cap_h=1200; max_n=18 ;;   # 3:4  小红书
+        moments)  cap_w=1080; cap_h=1920; max_n=9  ;;   # 9:16 朋友圈（1080w 行业标准）
+        xhs)      cap_w=1080; cap_h=1440; max_n=18 ;;   # 3:4  小红书（1080w 行业标准）
         *) echo "❌ Unknown social: $platform"; return 1 ;;
     esac
 
