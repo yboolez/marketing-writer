@@ -28,9 +28,8 @@ WIDTH="${3:-1440}"
 ABS_HTML="$(cd "$(dirname "$HTML")" && pwd)/$(basename "$HTML")"
 HTML_BASE="${ABS_HTML%.*}"                   # 不带扩展名的完整路径
 HTML_NAME="$(basename "$HTML_BASE")"          # 仅文件名（不含路径和扩展名）
-OUT_DIR="${HTML_BASE}-exports"                # 所有产物统一放这里
-mkdir -p "$OUT_DIR"
-BASE="${OUT_DIR}/${HTML_NAME}"                # 产物前缀，下游不变
+OUT_DIR="$(dirname "$ABS_HTML")"              # HTML 同目录就是输出目录
+BASE="${OUT_DIR}/${HTML_NAME}"                # 产物前缀（PDF / 长图）
 
 CHROME=""
 for candidate in \
