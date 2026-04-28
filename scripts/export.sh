@@ -26,7 +26,11 @@ WIDTH="${3:-1440}"
 [ ! -f "$HTML" ] && { echo "❌ File not found: $HTML" >&2; exit 1; }
 
 ABS_HTML="$(cd "$(dirname "$HTML")" && pwd)/$(basename "$HTML")"
-BASE="${ABS_HTML%.*}"
+HTML_BASE="${ABS_HTML%.*}"                   # 不带扩展名的完整路径
+HTML_NAME="$(basename "$HTML_BASE")"          # 仅文件名（不含路径和扩展名）
+OUT_DIR="${HTML_BASE}-exports"                # 所有产物统一放这里
+mkdir -p "$OUT_DIR"
+BASE="${OUT_DIR}/${HTML_NAME}"                # 产物前缀，下游不变
 
 CHROME=""
 for candidate in \
@@ -138,7 +142,7 @@ export_social() {
 
     n=$(count_slides)
     frames=$(( n < max_n ? n : max_n ))
-    outdir="${BASE}-${platform}"
+    outdir="${OUT_DIR}/${platform}"
     rm -rf "$outdir"; mkdir -p "$outdir"
 
     echo "→ 社交媒体 · ${platform} · ${frames} 张 @ ${cap_w}×${cap_h}"
