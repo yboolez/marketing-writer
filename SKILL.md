@@ -410,18 +410,23 @@ PDF / 长图 / 社交图都靠 `scripts/export.sh` 出，HTML 必须支持以下
 }
 
 /* 社交竖版模式（朋友圈 1080×1920 / 小红书 1080×1440）：
-   字号按行业规范在 1080w 画布上可读，多列 grid 强制单列。
-   注意：用 px 直接锁尺寸，不用 clamp(rem)——rem 上限给桌面写的，会卡得太小。 */
+   字号写成 rem-based，由 socialAutofit() 在 [20, 28] 区间动态调 root font-size：
+   - root=28（理想）：title 130 / body 44 / small 32  ← 行业规范
+   - root=20（底线）：title 93  / body 31 / small 23  ← 仍可读
+   slide-padding 用 max() 锁底线 40px，字号缩到底也不贴边。
+   .slide-content overflow:visible 让 transform: scale 兜底时能视觉缩完整内容。 */
 body.social-vertical {
-    --title-xl: 130px;     /* hero 主标题：行业规范 95-150 */
-    --title-size: 80px;    /* 段落标题：60-90 */
-    --body-size: 44px;     /* 正文：36-60，最关键 */
-    --small-size: 32px;    /* 标签/meta：28-34 */
-    --tiny-size: 28px;     /* 小字底线：24-28 */
-    --slide-padding: 80px;
-    --content-gap: 36px;
-    --element-gap: 20px;
+    --title-xl: 4.65rem;
+    --title-size: 2.86rem;
+    --body-size: 1.57rem;
+    --small-size: 1.14rem;
+    --tiny-size: 1rem;
+    --slide-padding: max(40px, 2.86rem);
+    --content-gap: 1.29rem;
+    --element-gap: 0.71rem;
 }
+body.social-vertical .slide-content { overflow: visible; }   /* transform: scale 缩 visual 完整内容 */
+body.social-vertical .slide { overflow: hidden; }            /* 防止溢出页边 */
 body.social-vertical .nav-dots, body.social-vertical .zen-controls { display: none !important; }
 /* 多列 / 左右分屏强制单列（按 deck 的实际 class 名补） */
 body.social-vertical .split, body.social-vertical .case-layout, body.social-vertical .perf-tables-row,
@@ -441,28 +446,48 @@ body.social-vertical .components-grid, body.social-vertical .coverage-grid { gri
 })();
 
 // ?social=moments | ?social=xhs → 激活竖版模式
-// 关键：把根字号从 16 提到 28，让所有遗留的 clamp(rem) max cap 同步抬升 1.75x，
-// 配合 social-vertical 的 px 覆盖，把 1080w 画布上的字号锁到行业规范区间。
 (function () {
   const social = new URLSearchParams(location.search).get('social');
   if (!social) return;
   document.body.classList.add('social-vertical');
-  document.documentElement.style.fontSize = '28px';
+  document.documentElement.style.fontSize = '28px';   // 初始 base，autofit 会动态调
 })();
 
-// Auto-fit：内容超出 100vh 时等比缩到刚好装下（演示和截图都用，PDF print CSS 独立接管）
+// Auto-fit：两阶段塞内容（演示和截图都用，PDF print CSS 独立接管）
+//   social mode：阶段 1 在 [20, 28] 区间递减 root font-size 找最大可装下值；
+//                阶段 2 仍溢出的单页 transform:scale 兜底（带 0.9 buffer 防 chrome screenshot 时机偏差）
+//   非 social：直接 transform:scale
+//   ?slide=N（截图模式）下，每页单独算最佳 base，不被密集页拖低字号
 (function () {
-  function fit(slide) {
-    const c = slide.querySelector('.slide-content');
-    if (!c) return;
-    c.style.transform = '';
-    const avail = c.clientHeight, need = c.scrollHeight;
-    if (need > avail + 2) { c.style.transformOrigin = '50% 50%'; c.style.transform = 'scale(' + (avail/need).toFixed(4) + ')'; }
+  const MAX_BASE = 28, MIN_BASE = 20;
+  function overflows(s) { const c = s.querySelector('.slide-content'); return c && (c.style.transform = '', c.scrollHeight > c.clientHeight + 2); }
+  function applyScale(s) {
+    const c = s.querySelector('.slide-content'); if (!c) return; c.style.transform = '';
+    if (c.scrollHeight > c.clientHeight + 2) {
+      const scale = (c.clientHeight / c.scrollHeight) * 0.9;   // 0.9 余量：fonts 沉降时机 + content 非完美居中
+      c.style.transformOrigin = '50% 50%';
+      c.style.transform = 'scale(' + scale.toFixed(4) + ')';
+    }
   }
-  const fitAll = () => document.querySelectorAll('.slide').forEach(fit);
+  function fitAll() {
+    const slides = [...document.querySelectorAll('.slide')];
+    if (document.body.classList.contains('social-vertical')) {
+      const idx = new URLSearchParams(location.search).get('slide');
+      const targets = idx !== null ? [slides[parseInt(idx, 10)]].filter(Boolean) : slides;
+      let base = MAX_BASE;
+      for (; base >= MIN_BASE; base--) {
+        document.documentElement.style.fontSize = base + 'px';
+        slides.forEach(s => { const c = s.querySelector('.slide-content'); if (c) c.style.transform = ''; });
+        document.body.offsetHeight; // 强制 reflow
+        if (targets.every(s => !overflows(s))) break;
+      }
+      if (base < MIN_BASE) document.documentElement.style.fontSize = MIN_BASE + 'px';
+    }
+    slides.forEach(applyScale);
+  }
   if (document.readyState === 'complete') fitAll(); else window.addEventListener('load', fitAll);
   window.addEventListener('resize', fitAll);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fitAll(); setTimeout(fitAll, 200); });
 })();
 </script>
 ```
