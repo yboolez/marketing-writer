@@ -59,16 +59,9 @@ skill 启动后会主动问 7 件事（产品 / 受众 / 目标格式 / 品牌 /
 
 ---
 
-## 一行命令装好
+## 安装
 
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/yboolez/marketing-writer/main/install.sh)
-```
-
-或手动：
-
-```bash
-mkdir -p ~/.claude/skills
 git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
 ```
 
@@ -85,7 +78,7 @@ git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing
 ## 下次做 deck，不用从空白开始
 
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/yboolez/marketing-writer/main/install.sh)
+git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
 ```
 
 MIT License.
