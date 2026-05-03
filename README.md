@@ -62,10 +62,10 @@ skill 启动后会主动问 7 件事（产品 / 受众 / 目标格式 / 品牌 /
 ## 下次做 deck，不用从空白开始
 
 ```bash
-git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
+git clone https://github.com/yboolez/GTM-deck-writer ~/.claude/skills/deck-writer
 ```
 
-装好后重启 Claude Code。触发：`/说人话`、`/GTM-deck-writer`、或自然语言「帮我写 pitch deck」「做个落地页」。
+装好后重启 Claude Code。触发：`/说人话`、`/deck-writer`、或自然语言「帮我写 pitch deck」「做个落地页」。
 
 ---
 

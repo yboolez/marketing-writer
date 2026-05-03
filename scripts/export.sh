@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# export.sh — convert marketing-writer HTML to mobile-shareable formats.
+# export.sh — convert deck-writer HTML to mobile-shareable formats.
 # Philosophy: smaller files over higher DPI. Rely on auto-fit + right
 # canvas size to make every slide look "reviewed" (no overflow, no
 # weird whitespace), then ship at DPR=1 for compact output.
