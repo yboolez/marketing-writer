@@ -59,7 +59,7 @@ skill 启动后会主动问 7 件事（产品 / 受众 / 目标格式 / 品牌 /
 
 ---
 
-## 一行命令即刻安装
+## 下次做 deck，不用从空白开始
 
 ```bash
 git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
@@ -69,12 +69,10 @@ git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing
 
 ---
 
-## 下次做 deck，不用从空白开始
+## 开源 skill，更好融入你的工作流
 
-```bash
-git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
-```
+公开说人话营销核心方法论，skill 可随心 remix。
 
-MIT License.
+MIT License. 
 
 部分原则借鉴自 **[dbs](https://github.com/dontbesilent2025/dbskill)**（标题张力、素材 5 维度、Hero 公式）和 **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)**（viewport fitting、信息密度、反 AI slop 美学）。
