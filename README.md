@@ -1,6 +1,6 @@
-# marketing-writer
+# GTM-deck-writer
 
-一个很会说人话的写手。写文案、做 PPT、做落地页。
+一个很会说人话的写手。写文案、做slides、做落地页。
 
 > A Claude Code skill that makes your slide titles read like a sales pitch, not a corporate table of contents.
 
@@ -59,19 +59,13 @@ skill 启动后会主动问 7 件事（产品 / 受众 / 目标格式 / 品牌 /
 
 ---
 
-## 安装
+## 一行命令即刻安装
 
 ```bash
 git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing-writer
 ```
 
-装好后重启 Claude Code。触发：`/说人话`、`/marketing-writer`、或自然语言「帮我写 pitch deck」「做个落地页」。
-
----
-
-## 理论参考
-
-部分原则借鉴自 **[dbs](https://github.com/dontbesilent2025/dbskill)**（标题张力、素材 5 维度、Hero 公式）和 **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)**（viewport fitting、信息密度、反 AI slop 美学）。
+装好后重启 Claude Code。触发：`/说人话`、`/GTM-deck-writer`、或自然语言「帮我写 pitch deck」「做个落地页」。
 
 ---
 
@@ -82,3 +76,5 @@ git clone https://github.com/yboolez/marketing-writer ~/.claude/skills/marketing
 ```
 
 MIT License.
+
+部分原则借鉴自 **[dbs](https://github.com/dontbesilent2025/dbskill)**（标题张力、素材 5 维度、Hero 公式）和 **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)**（viewport fitting、信息密度、反 AI slop 美学）。
